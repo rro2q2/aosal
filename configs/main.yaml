@@ -1,0 +1,32 @@
+# Dataset params
+data_dir: Data
+ind_dataset: clinc
+ood_dataset: rostd
+ind_ratio: 0.1
+ood_ratio: 0.2
+train_test_split: [0.8, 0.2]
+noise_ratio: 0.1
+
+# DataLoader
+batch_size: 32
+num_workers: 4
+pin_memory: True
+max_seq_length: 256
+
+# Trainer params
+learning_rate: 5e-5 
+epochs: 5
+weight_decay: 1e-3
+
+# AL params
+strategy: aosal
+budget_percent: 0.25
+acquisition_percent: 0.05
+# CAL params
+k: 10
+
+# Adaptivate Open-Set AL params
+percentile: 95
+distance: mahalanobis # [mahalanobis, wasserstein]
+inf_measure: uncertainty # uncertainty = entropy, diversity = ???
+const_threshold: False
