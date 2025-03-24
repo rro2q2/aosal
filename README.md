@@ -43,22 +43,30 @@ Config args (Important ones):
 `python src/main.py`
 
 ### Running AOSAL
-To run AOSAL use the command below:
+To run AOSAL use the template below:
 
-`python src/main.py ind_dataset=<str> ood_dataset=<str> noise_ratio=<float> epochs=<int> strategy=<str> percentile=<int> distance=<str> inf_measure=<str>`
+```
+python src/main.py ind_dataset=<str> ood_dataset=<str> noise_ratio=<float> epochs=<int> strategy=<str> percentile=<int> distance=<str> inf_measure=<str>
+```
 
 For example, if you wanted to use the `AOSAL` AL strategy to train a model on CLINC-FULL over 5 epochs and test on ROSTD with 10% noise ratio, 95 FPR, Mahalanobis distance and uncertainty measure for informative query selection, the following code would look as:
 
-`python src/main.py ind_dataset=clinc ood_dataset=rostd noise_ratio=0.1 epochs=5 strategy=aosal percentile=95 distance=mahalanobis inf_measure=uncertainty`
+```
+python src/main.py ind_dataset=clinc ood_dataset=rostd noise_ratio=0.1 epochs=5 strategy=aosal percentile=95 distance=mahalanobis inf_measure=uncertainty
+```
 
 ### Running Baselines
 To run AL baselines use the following command below:
 
-`python src/main.py ind_dataset=<str> ood_dataset=<str> noise_ratio=<float> epochs=<int> strategy=<str>`
+```
+python src/main.py ind_dataset=<str> ood_dataset=<str> noise_ratio=<float> epochs=<int> strategy=<str>
+```
 
 For example, if you wanted to use the `Entropy` AL strategy to train a model on CLINC-FULL over 5 epochs and test on ROSTD with 10% noise ratio, the following code would look as:
 
-`python src/main.py ind_dataset=clinc ood_dataset=rostd noise_ratio=0.1 epochs=5 strategy=entropy`
+``` 
+python src/main.py ind_dataset=clinc ood_dataset=rostd noise_ratio=0.1 epochs=5 strategy=entropy
+```
 
 ### Train Configurations per Dataset
 In terms of `epochs`, the best configuration are as follows for each IND dataset:
