@@ -1,3 +1,7 @@
+# Author: Roland Oruche
+# Affiliation: University of Missouri-Columbia
+# Year: 2024
+
 import torch
 import numpy as np
 from torch.utils.data import Dataset, DataLoader, SequentialSampler

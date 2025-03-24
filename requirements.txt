@@ -7,4 +7,4 @@ hydra-core
 hydra-colorlog
 hydra-optuna-sweeper
 matplotlib
-seaborn
+rootutils

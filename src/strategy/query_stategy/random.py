@@ -1,3 +1,7 @@
+# Author: Roland Oruche
+# Affiliation: University of Missouri-Columbia
+# Year: 2024
+
 import random
 import torch
 import numpy as np

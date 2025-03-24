@@ -1,3 +1,8 @@
+# Authors: Roland Oruche, Sai Keerthana Goruganthu
+# Affiliation: University of Missouri-Columbia
+# Year: 2024
+
+from typing import Tuple, List, Union
 import torch
 import torch.nn as nn
 from scipy.stats import wasserstein_distance
@@ -5,29 +10,13 @@ from tqdm import tqdm
 import sys
 import numpy as np
 from scipy.spatial.distance import cdist
+from model.bert import BertModel
+from torch.utils.data import DataLoader
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
-def extract_features(model, dataloader, include_labels=True):
-    # self.model.bert.eval()  
-    # features = []
-    # labels = []
-    # with torch.no_grad():
-    #     for _, batch in tqdm(enumerate(dataloader), file=sys.stdout):
-    #         batch = {key: value.to(device) for key, value in batch.items() if key != "indices"}
-    #         outputs = model.forward(**batch)
-    #         # Collect features using the [CLS] token representation
-    #         batch_features = outputs.hidden_states[-1][:, 0, :].cpu().numpy()
-    #         features.append(batch_features)
-    #         # Process labels only if they are included and needed
-    #         if include_labels and 'labels' in batch:
-    #             labels += batch['labels'].cpu().tolist()
-    # if include_labels:
-    #     assert len(torch.vstack(features)) == len(labels), f"Mismatch in feature length ({len(features)}) and labels length ({len(labels)}) extraction."
-    #     return torch.vstack(features), np.array(labels)
-    # else:
-    #     return torch.vstack(features)
 
+def extract_features(model: BertModel, dataloader: DataLoader, include_labels: bool = True):
     embeddings = []
     labels = []
     with torch.no_grad():
@@ -40,9 +29,9 @@ def extract_features(model, dataloader, include_labels=True):
             labels.extend(batch['labels'].cpu().numpy())
     return embeddings, labels
 
-def compute_class_stats(features, labels):
+def compute_class_stats(features: Tuple[torch.FloatTensor], labels: np.ndarray) -> Tuple[torch.Tensor, torch.Tensor]:
     unique_labels = np.unique(labels)
-    class_means = np.zeros([len(unique_labels), features.shape[1]]) #{}
+    class_means = np.zeros([len(unique_labels), features.shape[1]])
     sample_counts = []
     # Compute the global covariance matrix that can be used as fallback
     global_covariance = np.cov(features, rowvar=False)
@@ -70,42 +59,11 @@ def mahalanobis(vector, means_matrix, cov_matrix):
     return distances
 
 def mahalanobis_distance(X, means, cov):
-    """
-    # X = torch.Tensor(X).to(device)
-    # means = [means[label].tolist() for _, label in enumerate(means)]
-    # means = torch.Tensor(means).to(device)
-    # cov = cov.to(device)
-    inv_covmat = torch.linalg.inv(cov)
-    print("Inverse of covariance matrix computed.")
-    # min_distances = []
-    # for i in range(len(X)):
-    #     dist = []
-    #     for j in range(len(means)):
-    #         dist.append(mahalanobis(X[i], means[j], cov).cpu())
-    #     min_distances.append(np.min(dist))
-
-    min_distances = []
-    for i, x in enumerate(X):
-        distances = []
-        for mean in means.values():
-            dist = cdist([x], [mean], 'mahalanobis', VI=inv_covmat)[0]
-            # dist = mahalanobis(x.cpu(), mean, cov.cpu())
-            # print(dist)
-            distances.append(dist)
-        min_distance = np.min(distances)
-        min_distances.append(min_distance)
-        if i % 500 == 0:  # Log progress every 500 samples
-            print(f"Computed distances for {i} samples.")
-         
-    print("Mahalanobis distances computation completed.")
-    return np.array(min_distances)
-    """
     distances = []
     for x in tqdm(range(len(X)), desc="MAH"):
         distances.append(mahalanobis(X[x].to(device), means.to(device), cov.to(device)))
     d = torch.min(torch.vstack(distances), dim=1)
     return d.values
-
 
 def wasserstein(vector, matrix, p=1):
     # Ensure the vector and each row of the matrix are sorted
@@ -130,11 +88,7 @@ def compute_base_distribution(ind_features, ind_labels):
         class_means[l] = torch.Tensor(np.mean(class_features, axis=0))
     return class_means
 
-def norm_dist(distances):
-    # z-score + sigmoid normalization
-    # z_score_dis = (distances - np.mean(distances)) / np.std(distances)
-    # normalized_distances = sigmoid(z_score_dis)
-
+def norm_dist(distances: Union[torch.Tensor, np.ndarray]):
     # max ratio normalization
     if isinstance(distances, torch.Tensor):
         distances = distances.cpu().numpy()
@@ -143,11 +97,8 @@ def norm_dist(distances):
     normalized_distances = distances / max_distance if max_distance > 0 else distances
     return normalized_distances
 
-def calculate_fpr_threshold(distances, percentile=95):
+def calculate_fpr_threshold(distances, percentile: int = 95) -> float:
     return np.percentile(distances, percentile)
-
-def sigmoid(Z):
-    return 1/(1+(np.exp((-Z))))
 
 def run_distance(distance, ind_features, ind_labels, test_features):
     if distance not in {'mahalanobis', 'wasserstein'}:

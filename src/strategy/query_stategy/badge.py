@@ -1,3 +1,8 @@
+# Author: Roland Oruche (Orginal code by: JordanAsh)
+# Original code: https://github.com/JordanAsh/badge/blob/master/query_strategies/badge_sampling.py 
+# Affiliation: University of Missouri-Columbia
+# Year: 2024
+
 import numpy as np
 from torch.utils.data import Dataset, Subset, DataLoader
 from typing import Optional, Any, List
@@ -37,8 +42,6 @@ def init_centers(embeddings, K):
                 if D2[i] > new_D[i]:
                     cent_inds[i] = cent
                     D2[i] = new_D[i]
-              
-        # print(str(len(mu)) + '\t' + str(sum(D2)), flush=True)
         # set breakpoint for python debugger
         if sum(D2) == 0.0: pdb.set_trace()
         D2 = D2.ravel().astype(float)

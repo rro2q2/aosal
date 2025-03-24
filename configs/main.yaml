@@ -1,5 +1,9 @@
+# Author: Roland Oruche
+# Affiliation: University of Missouri-Columbia
+# Year: 2024
+
 # Dataset params
-data_dir: Data
+data_dir: data
 ind_dataset: clinc
 ood_dataset: rostd
 ind_ratio: 0.1
@@ -9,7 +13,7 @@ noise_ratio: 0.1
 
 # DataLoader
 batch_size: 32
-num_workers: 4
+num_workers: 2
 pin_memory: True
 max_seq_length: 256
 

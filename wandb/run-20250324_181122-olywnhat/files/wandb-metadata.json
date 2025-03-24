@@ -1,0 +1,90 @@
+{
+  "os": "Linux-4.18.0-553.8.1.el8_10.x86_64-x86_64-with-glibc2.28",
+  "python": "CPython 3.11.11",
+  "startedAt": "2025-03-24T23:11:22.873972Z",
+  "args": [
+    "ind_dataset=clinc",
+    "ood_dataset=rostd",
+    "noise_ratio=0.1",
+    "epochs=5",
+    "strategy=aosal",
+    "percentile=95",
+    "distance=mahalanobis",
+    "inf_measure=uncertainty"
+  ],
+  "program": "/mnt/pixstor/data/rro2q2/aosal/src/main.py",
+  "codePath": "src/main.py",
+  "git": {
+    "remote": "https://github.com/rro2q2/aosal.git",
+    "commit": "ffa2960846192c90085abeb6e1e93d3eebb6bcee"
+  },
+  "email": "rro2q2@mail.missouri.edu",
+  "root": "/mnt/pixstor/data/rro2q2/aosal",
+  "host": "g014.mgmt.hellbender",
+  "executable": "/home/rro2q2/data/miniconda/envs/aosal/bin/python",
+  "codePathLocal": "src/main.py",
+  "cpu_count": 64,
+  "cpu_count_logical": 64,
+  "gpu": "NVIDIA A100 80GB PCIe",
+  "gpu_count": 1,
+  "disk": {
+    "/": {
+      "total": "474878849024",
+      "used": "39436136448"
+    }
+  },
+  "memory": {
+    "total": "269340712960"
+  },
+  "cpu": {
+    "count": 64,
+    "countLogical": 64
+  },
+  "gpu_nvidia": [
+    {
+      "name": "NVIDIA A100 80GB PCIe",
+      "memoryTotal": "85899345920",
+      "cudaCores": 6912,
+      "architecture": "Ampere"
+    }
+  ],
+  "slurm": {
+    "cluster_name": "hellbender",
+    "conf": "/etc/slurm/slurm.conf",
+    "cpus_on_node": "2",
+    "cpus_per_task": "2",
+    "export_env": "NONE",
+    "get_user_env": "1",
+    "gpus_on_node": "1",
+    "gtids": "0",
+    "job_account": "engineering",
+    "job_cpus_per_node": "2",
+    "job_gid": "1036276",
+    "job_gpus": "3",
+    "job_id": "7128374",
+    "job_name": "sys/dashboard/sys/hb_vscode",
+    "job_nodelist": "g014",
+    "job_num_nodes": "1",
+    "job_partition": "gpu",
+    "job_qos": "normal",
+    "job_uid": "1036276",
+    "job_user": "rro2q2",
+    "jobid": "7128374",
+    "localid": "0",
+    "mem_per_node": "49152",
+    "nnodes": "1",
+    "node_aliases": "(null)",
+    "nodeid": "0",
+    "nodelist": "g014",
+    "prio_process": "0",
+    "procid": "0",
+    "submit_dir": "/var/www/ood/apps/sys/dashboard",
+    "submit_host": "hellbender-openondemand.mgmt.hellbender",
+    "task_pid": "1848144",
+    "tasks_per_node": "1",
+    "topology_addr": "g014",
+    "topology_addr_pattern": "node",
+    "working_cluster": "hellbender:hellbender-p1.mgmt.hellbender:6817:9728:101"
+  },
+  "cudaVersion": "12.8"
+}

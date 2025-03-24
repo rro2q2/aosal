@@ -2,7 +2,7 @@
 # Affiliation: University of Missouri-Columbia
 # Year: 2024
 
-from typing import Optional, Tuple, List, Union
+from typing import Optional, Tuple, List, Union, Dict
 import numpy as np
 import random
 import torch

@@ -1,3 +1,8 @@
+# Author: Roland Oruche (Orginal code by: mourga)
+# Original code: https://github.com/mourga/contrastive-active-learning/blob/main/acquisition/cal.py
+# Affiliation: University of Missouri-Columbia
+# Year: 2024
+
 import numpy as np
 from torch.utils.data import DataLoader, Dataset, Subset
 from typing import Optional, Any, List

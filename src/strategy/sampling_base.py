@@ -1,4 +1,8 @@
-from typing import Optional, Any, List
+# Author: Roland Oruche
+# Affiliation: University of Missouri-Columbia
+# Year: 2024
+
+from typing import Optional, Any, List, Union, Dict
 import torch
 import torch.nn.functional as F
 from torch.utils.data import Dataset, Subset, DataLoader
@@ -25,7 +29,7 @@ class QSamplingBase:
     def query(self, n: int, data_set: Optional[Dataset], train_idxs: List, unlabeled_idxs: List, threshold: Optional[float] = None):
         return
 
-    def update_train_set(self, dataset, ind_query_idxs, main_dataset):
+    def update_train_set(self, dataset, ind_query_idxs, main_dataset) -> DataLoader:
         # Update train data indices
         dataset.train_data_idxs = np.concatenate((dataset.train_data_idxs, ind_query_idxs))
         # Update labeled indices 
@@ -36,7 +40,7 @@ class QSamplingBase:
         # return new train dataloader
         return dataset.train_dataloader(main_dataset)
 
-    def update_val_ood_set(self, dataset, ood_query_idxs, main_dataset, val_data_idxs):
+    def update_val_ood_set(self, dataset, ood_query_idxs, main_dataset, val_data_idxs) -> DataLoader:
         # Update ood val data indices
         dataset.ood_val_data_idxs = np.concatenate((dataset.val_ood_data_idxs, ood_query_idxs))
         # Update labeled indices 

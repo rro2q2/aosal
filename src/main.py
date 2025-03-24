@@ -1,3 +1,7 @@
+# Author: Roland Oruche
+# Affiliation: University of Missouri-Columbia
+# Year: 2024
+
 import torch
 from model.bert import BertModel
 from trainer import Trainer
@@ -8,6 +12,9 @@ import hydra
 from omegaconf import DictConfig, OmegaConf
 import numpy as np
 import time
+import rootutils
+
+rootutils.setup_root(__file__, indicator=".project-root", pythonpath=True)
 
 from data.data_preprocessor import DataPreprocessor, MainDataset, print_dataset_statistics
 from strategy.get_strategy import *

@@ -1,3 +1,7 @@
+# Author: Roland Oruche
+# Affiliation: University of Missouri-Columbia
+# Year: 2024
+
 import torch
 import numpy as np
 from torch.utils.data import Dataset
@@ -24,9 +28,6 @@ class AOSALSampling(QSamplingBase):
         self.inf_measure = inf_measure
 
     def query(self, n: int, main_dataset: Optional[Dataset], train_idxs: List, unlabeled_idxs: List, threshold: Optional[float] = None):
-        # TODO: If the classified IND samples is less than acquisition size,
-        # select the top classified OOD samples to fill.
-
         print("### Running AOSAL Loop ###")
         # Extracts features from IND train set
         train_embeddings, train_labels = self.get_labeled_embeddings(train_idxs, main_dataset)

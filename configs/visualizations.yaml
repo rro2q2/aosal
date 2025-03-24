@@ -1,6 +1,0 @@
-expir_dir: expir_runs
-ind_dataset: clinc
-ood_dataset: rostd
-noise: 10
-ablation: False
-fpr: False

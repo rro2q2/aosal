@@ -1,3 +1,9 @@
+# Author: Roland Oruche
+# Affiliation: University of Missouri-Columbia
+# Year: 2024
+
+from omegaconf import DictConfig
+from model.bert import BertModel
 # Import query strategies
 from strategy.query_stategy.random import RandomSampling
 from strategy.query_stategy.entropy import EntropySampling
@@ -6,7 +12,14 @@ from strategy.query_stategy.badge import BADGESampling
 from strategy.query_stategy.cal import CALSampling
 from strategy.query_stategy.aosal import AOSALSampling
 
-def get_sampling_strategy(cfg, model):
+def get_sampling_strategy(cfg: DictConfig, model: BertModel):
+    """
+    Returns sampling strategy.
+    @param cfg: Main configuration for running experiments.
+    @parm model: Pre-trained BERT model.
+    Raises ValueError: If sampling strategy name is invalid. 
+    """
+
     if cfg.strategy == "random":
         return RandomSampling(
             model=model, 
