@@ -176,3 +176,7 @@ configs/local/default.yaml
 /logs/
 .env
 /outputs/
+
+# Wandb
+wandb/
+wandb/*
