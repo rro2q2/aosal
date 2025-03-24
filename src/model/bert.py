@@ -1,9 +1,18 @@
+# Author: Roland Oruche
+# Affiliation: University of Missouri-Columbia
+# Year: 2024
+
+from typing import Tuple
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from transformers import BertPreTrainedModel, BertModel, PretrainedConfig, BertConfig, BertForSequenceClassification
 
 class BertModel():
+    """ BERT module.
+    Functions:
+        forward(): Performs forward pass using `BertForSequenceClassification` class. 
+    """
     def __init__(
         self,
         num_labels: int 
@@ -21,7 +30,7 @@ class BertModel():
         input_ids=None,
         attention_mask=None,
         labels=None
-    ):
+    ) -> Tuple[torch.FloatTensor]:
         outputs = self.bert(
             input_ids=input_ids,
             attention_mask=attention_mask,
