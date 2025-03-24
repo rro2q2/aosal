@@ -6,7 +6,7 @@ from typing import Tuple
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from transformers import BertPreTrainedModel, BertModel, PretrainedConfig, BertConfig, BertForSequenceClassification
+from transformers import BertForSequenceClassification
 
 class BertModel():
     """ BERT module.
