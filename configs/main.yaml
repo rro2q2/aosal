@@ -28,5 +28,5 @@ k: 10
 # Adaptivate Open-Set AL params
 percentile: 95
 distance: mahalanobis # [mahalanobis, wasserstein]
-inf_measure: uncertainty # uncertainty = entropy, diversity = ???
+inf_measure: uncertainty # uncertainty = entropy, diversity = kmeans
 const_threshold: False

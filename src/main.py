@@ -83,12 +83,12 @@ def main(cfg: DictConfig) -> None:
     print(f"Acquisition Size: {acq_size}")
     total_acq_size = 0
 
-    # start a new wandb run to track this script
+    # Start a new wandb run to track this script
     run = wandb.init(
-        # set the wandb project where this run will be logged
+        # Set the wandb project where this run will be logged
         project="al-ood-tods",
         name=run_name,
-        # track hyperparameters and run metadata
+        # Track hyperparameters and run metadata
         config={
             "ind_dataset": cfg.ind_dataset,
             "ind_ratio": cfg.ind_ratio,
@@ -140,7 +140,6 @@ def main(cfg: DictConfig) -> None:
     test_accuracies = []
     test_losses = []
 
-    # """
     # Perform AL
     idx_rnd += 1
     current_threshold = threshold
@@ -184,7 +183,6 @@ def main(cfg: DictConfig) -> None:
         
         # update current epoch
         trainer.current_epoch = trainer.epochs
-        # trainer.epochs += 1
         # train model
         trainer.train(new_train_dl, val_dl)
         # evaluate on test set (IND)
@@ -217,7 +215,6 @@ def main(cfg: DictConfig) -> None:
     print(f"AL strategy '{cfg.strategy}' took {elapsed_time:.6f} seconds to execute.")
     # finish Wandb run
     run.finish()
-    # """
 
 if __name__ == '__main__':
     main()
