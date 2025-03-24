@@ -11,7 +11,7 @@
   <img src="main_arch.png" />
 </p>
 
-Official code of the paper titled [Adaptive Open-Set Active Learning with Distance-Based Out-of-Distribution Detection for Robust Task-Oriented Dialog System](https://aclanthology.org/2024.sigdial-1.32.pdf). This paper was published in SIGDIAL 2024.
+Official code of the paper titled [Adaptive Open-Set Active Learning with Distance-Based Out-of-Distribution Detection for Robust Task-Oriented Dialog System](https://aclanthology.org/2024.sigdial-1.32.pdf). This paper is published in SIGDIAL 2024.
 
 # Getting Started
 ## Python Installations
