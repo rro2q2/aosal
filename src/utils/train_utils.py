@@ -1,6 +1,12 @@
-import torch
+# Author: Roland Oruche
+# Affiliation: University of Missouri-Columbia
+# Year: 2024
 
-def collate_fn(batch):
+from typing import Dict, Union
+import torch
+from torch.utils.data import Subset
+
+def collate_fn(batch: Subset) -> Dict[str, Union[torch.tensor, List[int]]]:
     max_len = max([len(f[0]["input_ids"]) for f in batch])
     input_ids = [f[0]["input_ids"] + [0] * (max_len - len(f[0]["input_ids"])) for f in batch]
     input_mask = [[1.0] * len(f[0]["input_ids"]) + [0.0] * (max_len - len(f[0]["input_ids"])) for f in batch]
@@ -17,7 +23,7 @@ def collate_fn(batch):
     }
     return outputs
 
-def collate_fn_binary_labels(batch):
+def collate_fn_binary_labels(batch: Subset) -> Dict[str, Union[torch.tensor, List[int]]]:
     max_len = max([len(f[0]["input_ids"]) for f in batch])
     input_ids = [f[0]["input_ids"] + [0] * (max_len - len(f[0]["input_ids"])) for f in batch]
     input_mask = [[1.0] * len(f[0]["input_ids"]) + [0.0] * (max_len - len(f[0]["input_ids"])) for f in batch]
