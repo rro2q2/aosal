@@ -1,3 +1,7 @@
+# Author: Roland Oruche
+# Affiliation: University of Missouri-Columbia
+# Year: 2024
+
 from typing import Optional, Any, Dict
 import torch
 from torch.utils.data import DataLoader
@@ -11,6 +15,14 @@ from metrics import *
 from distance.distance import *
 
 class Trainer:
+    """ Trains and evaluates model on IND data and OOD data.
+    Functions:
+        train(): Trains model over specified number of epochs.
+        train_epoch(): Performs train and optimization over given epoch.
+        evaluate(): Evaluates model on IND data in val set.
+        evaluate_ood(): Evaluates model on OOD data in val set and updates FPR threshold.
+        test(): Evaluates model on IND data in test set.
+    """
     def __init__(
         self,
         model: Any,
@@ -44,7 +56,7 @@ class Trainer:
             val_results = self.evaluate(val_dl)
             print(f"Average val loss: {val_results['avg_loss']:.3f} | Average val accuracy: {val_results['avg_acc']:.3f}")
 
-    def train_epoch(self, train_dl: DataLoader):
+    def train_epoch(self, train_dl: DataLoader) -> float:
         self.model.bert.train()
         total_loss = 0
         for _, batch in tqdm(enumerate(train_dl), file=sys.stdout):
@@ -56,9 +68,7 @@ class Trainer:
             loss = outputs.loss
             total_loss += loss.item()
             loss.backward()
-            # TODO: Maybe add regularization ??
             self.optimizer.step()
-
         average_loss = total_loss / len(train_dl)
         return average_loss
 
@@ -73,7 +83,7 @@ class Trainer:
             labels = batch["labels"]
             with torch.no_grad():
                 outputs = self.model.forward(**batch)
-                loss, logits = outputs.loss, outputs.logits #outputs.hidden_states[-1][:, 0, :]
+                loss, logits = outputs.loss, outputs.logits
                 total_loss += loss.item()
             predictions += torch.argmax(logits, dim=1).long().tolist()
             ground_truth += labels.tolist()
@@ -83,7 +93,7 @@ class Trainer:
         results["avg_acc"] = average_acc
         return results
 
-    def evaluate_ood(self, train_dl: DataLoader, val_ood_dl: DataLoader):
+    def evaluate_ood(self, train_dl: DataLoader, val_ood_dl: DataLoader) -> Tuple[Dict[str, float], float]:
         self.model.bert.eval()
         predictions = []
         ground_truth = []
@@ -92,7 +102,6 @@ class Trainer:
         val_features, val_labels = extract_features(self.model, val_ood_dl)
         ground_truth = val_labels
         # Run distance
-        # val_distances = mahalanobis_distance(val_features, class_means, pooled_cov)
         val_distances = run_distance(self.distance, ind_features, ind_labels, val_features)
         # Normalize disances
         normalized_distances = norm_dist(val_distances)
@@ -109,7 +118,7 @@ class Trainer:
         ood_results["avg_ood_acc"] = average_acc
         return ood_results, threshold
 
-    def test(self, test_dl: DataLoader):
+    def test(self, test_dl: DataLoader) -> Dict[str, float]:
         test_results = self.evaluate(test_dl)
         return test_results
                             
